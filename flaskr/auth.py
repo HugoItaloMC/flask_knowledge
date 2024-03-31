@@ -12,7 +12,7 @@ from flask import (Blueprint, flash,
                    session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from db import get_db
+from flaskr.db import get_db
 
 blue_auth = Blueprint('auth', __name__, url_prefix='/auth')  # Grupo de rotas associadas a rota '/auth'
 
@@ -44,10 +44,10 @@ def register():
                 return redirect(url_for("auth.login"))
 
         flash(error)
-    return render_template('auth/register.html')
+    return render_template('register.html')
 
 
-@blue_auth.route( '/login', methods=('GET', 'POST'))
+@blue_auth.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -72,7 +72,7 @@ def login():
             return redirect(url_for('index'))
 
         flash(error)
-    return render_template('auth/login.html')
+    return render_template('login.html')
 
 
 #  Validando usuário se na sessão existe usuário logado
