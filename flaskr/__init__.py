@@ -27,9 +27,10 @@ def create_app(test_config=None):
     def hello():
         return 'Hello World'
 
-    from . import db, auth
+    from . import db, auth, blog
     db.init_app(app)
     app.register_blueprint(auth.blue_auth)
+    app.register_blueprint(blog.bp_blog)
     app.add_url_rule('/', endpoint='index')
 
     return app
