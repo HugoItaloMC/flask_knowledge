@@ -30,5 +30,6 @@ def create_app(test_config=None):
     from . import db, auth
     db.init_app(app)
     app.register_blueprint(auth.blue_auth)
+    app.add_url_rule('/', endpoint='index')
 
     return app
