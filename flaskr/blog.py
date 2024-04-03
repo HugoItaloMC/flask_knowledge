@@ -5,7 +5,7 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
-bp_blog = Blueprint('blog', __name__, template_folder='template')
+bp_blog = Blueprint('blog', __name__, template_folder='template', static_folder='static')
 
 
 @bp_blog.route('/')
