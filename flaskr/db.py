@@ -28,7 +28,8 @@ def init_db():
     with current_app.open_resource('schema.sql') as sql:
         db.executescript(sql.read().decode('utf8'))
 
-@click.command('init-db')
+
+@click.command('init-db')  # Gera uma interface de comando para executar a funcão decorada
 def init_db_command():
     # Limpa o banco de dados se existr e criara novas tabelas
     init_db()
@@ -37,5 +38,8 @@ def init_db_command():
 
 def init_app(app):
     # close_db e init_db_command são funcões necessárias para registros com a instância da aplicacão
-    app.teardown_appcontext(close_db)  # Chama o flask para limpar a subida apóes uma resposta
-    app.cli.add_command(init_db_command)  # Adiciona novos comandos que podem ser chamados a partir do comando `flask`
+
+    # Gerando contexto da aplicacão para guardar tracks de nível de requisicões dos dados
+    with app.app_context():
+        app.teardown_appcontext(close_db)  # Chama o flask para limpar a subida apóes uma resposta
+        app.cli.add_command(init_db_command)  # Adiciona novos comandos que podem ser chamados a partir do comando `flask`
