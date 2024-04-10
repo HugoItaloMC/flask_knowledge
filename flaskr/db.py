@@ -33,7 +33,7 @@ def init_db():
 def init_db_command():
     # Limpa o banco de dados se existr e criara novas tabelas
     init_db()
-    click.echo('Iinitialize DataBase')
+    click.echo('Iinitialize DataBase')  # Saída no terminal se a execucão for bem sucedida
 
 
 def init_app(app):
