@@ -14,3 +14,25 @@ def test_get_close_db(app):
         db.executescript('SELECT 1')
 
     assert 'closed' in str(err.value)
+
+
+def test_init_db_command(runner, monkeypatch):
+
+    """
+    Testes na funcão init_db que registra um comando na aplicacão e retorna uma mensagem de saída
+
+    :param runner: É o método de criado em conftest.py para testar comandos registrados na aplicacão
+    :param monkeypatch: Ferramenta do Pytest para alterar funcões da aplicacão por uma registrada na chamada
+    :return: non
+    """
+    class Recorder(object):
+        called = False
+
+    def fake_init_db():
+        Recorder.called = True
+
+    monkeypatch.setattr('flaskr.db.init_db', fake_init_db)
+    result = runner.invoke(args=['init-db'])
+
+    assert 'Initialized' in result.output
+    assert Recorder.called
