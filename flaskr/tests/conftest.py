@@ -37,3 +37,50 @@ def client(app):
 def runner(app):
     # Chama a jogada `fixture` app
     return app.test_cli_runner()  # Cria execucões para chamar comandos registrados na aplicacão
+
+
+class AuthAction(object):
+
+    """
+
+    """
+    def __init__(self, client):
+        """
+            Em quase todas as rotas o usuário deve estar logado,
+        este objeto faz acesso a fixture `client` para
+        testar requisicões na aplicacão
+
+        :param client: representa fixture definada acima para requisicões como cliente
+        """
+        self._client = client
+
+    def login(self, username='test', password='teste'):
+        """
+            Método de teste na rota para logar o usuário na aplicacão
+
+        :param username: Nome de usuário para teste
+        :param password: senha do usuário para teste
+        :return: Flask().test_client().post({})
+        """
+
+        return self._client.post('/auth/login',  # rota para ecessar no teste
+                                 data={'username': username, password:password})  # Dados para o formulário da requisicão
+
+    def logout(self):
+        """
+        Método de teste para deslogar o usuário da aplicacão
+        :return: Flask().test_client()
+        """
+        return self._client.get('/auth/logout')
+
+
+@pytest.fixture
+def auth(client):
+    """
+
+      Fixture para ser utilizada em testes nos módulos de autenticacão da aplicacão
+
+    :param client: Representa fixture `client` que faz requisicões como cliente
+    :return: AuthActions(client)
+    """
+    return AuthAction(client=client)
