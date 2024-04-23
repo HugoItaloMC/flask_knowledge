@@ -2,7 +2,7 @@ import sqlite3
 
 import pytest
 
-from flaskr.db import  get_db
+from flaskr.db import get_db
 
 
 def test_get_close_db(app):
@@ -36,3 +36,4 @@ def test_init_db_command(runner, monkeypatch):
 
     assert 'Initialize' in result.output
     assert Recorder.called
+
