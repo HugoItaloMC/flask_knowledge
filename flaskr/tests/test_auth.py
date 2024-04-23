@@ -41,3 +41,37 @@ def test_register_validate_input(client, username, password, message):
     assert message in response.data
 
 
+def test_login(client, auth):
+    """
+
+    :param client:  Fixture do cliente, um  proxy da instância do objeto Flask atual chamando o método test_client()
+    :param auth: Fixute de auth, um proxy para acessar as rotas de autenticacão da aplicacão atual
+    :return: afirmacões definidas na execucão
+    """
+
+    assert client.get('/auth/login').status_code == 200  # Retornando status da chamada da rota
+    response = auth.login()  # Logando usuário de teste
+    assert response.headers['Location'] == '/'  # Teste se rota atual é a `index`
+
+    with client:
+        # Aṕóes a resosta utilizando fixture `client` como contexto pode acessar objetos globais que os mesmos verificam dados atuais
+        client.get('/')
+        assert session['user_id'] == 1
+        assert g.user['username'] == 'teste'
+
+
+@pytest.mark.parametrize('username', 'password', 'message', (
+    (b'a', b'test', b'Incorret Username'),
+    (b'test', b'a', b'Incorred password')
+))
+def test_login_validate_input(auth, username, password, message):
+    """
+
+    :param auth: Proxye para testes de autenticacãi
+    :param username: Usuário parametrizado pelo decorator
+    :param password: senha parametrizada pelo decorator
+    :param message: Mensagem parametrizada para cada erro fornecida pelo decorator
+    :return:  afirmacões de erros
+    """
+    response = auth.login(username, password)  # Logando usuário parametrizado através do proxy
+    assert message in response.data  # Afirmando se mensagem de erro está contida na resposta
