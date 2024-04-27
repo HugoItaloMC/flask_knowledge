@@ -52,3 +52,29 @@ def test_login_required(client, path):
     response = client.post(path)
     assert response.headers['Location'] == '/auth/login'  # Afirmando se está solicitando login para acessar as rotas parametrizadas
 
+
+def test_author_required(app, client, auth):
+    """
+       Estar logado para acessar seus posts e poder editar ou deletar
+    caso contrário erro 403 será retornado, se o id do post ñ existir
+    erro 404 será retornado.
+
+    :param app: proxy para fixeture 'app'
+    :param client:  Proxu para fixeture 'client'
+    :param auth:  proxy para fixeture 'auth'
+    :return: afirmacões de testes
+    """
+
+    # Mudar o altor da postagem para outro usuário
+    with app.app_context():
+        db = get_db()
+        db.execute('UPDATE post SET author_id = 2 WHERE id = 1')
+        db.commit()
+
+    auth.login()  # Logando usuário de teste
+    # Usuário atual ñ pode modigicar post de outros usuários, erro 403 deve ser levantado
+    assert client.post('/1/update').status_code == 403
+    assert client.post('/1/delete').status_code == 403
+
+    # Usuário atual ñ pode ver link para editar post de outros usuários
+    assert b'href="/1/update"' not in client.get('/').data
