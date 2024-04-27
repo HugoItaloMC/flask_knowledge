@@ -71,7 +71,7 @@ def test_login(client, auth):
     (b'a', b'test', b'Incorret Username'),
     (b'test', b'a', b'Incorred password')
 ))
-def test_login_validate_input(auth: 'AuthAction', username, password, message):
+def test_login_validate_input(auth, username, password, message):
     """
         Funcão de teste de validacão de entradas na rota de login
     de usuário, dados fornecidos pelo decorator pytest, validando
