@@ -32,3 +32,23 @@ def test_index(client, auth):
     assert b'by test on 2018-01-01' in response.data  # Dados para testes contidos em post no blog
     assert b'test\nbody' in response.data
     assert b'href="/1/update"' in response.data  # Link para edita posts do usuário no blog
+
+
+@pytest.mark.parametrize('path',
+                         ('/create',
+                          '/1/update',
+                          '/1/delete'))
+def test_login_required(client, path):
+    """
+      O usuário deve estar logado para acessar as rotas
+    create, update e delete.
+      As rotas vão ser testadas pelo decorator do pytest.
+
+    :param client: proxy da Fixeture 'client'
+    :param path: Para testar as rotas
+    :return: afirmacões de testes
+    """
+
+    response = client.post(path)
+    assert response.headers['Location'] == '/auth/login'  # Afirmando se está solicitando login para acessar as rotas parametrizadas
+
