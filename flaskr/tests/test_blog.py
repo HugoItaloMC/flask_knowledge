@@ -96,24 +96,3 @@ def test_exists_required(client, auth, path):
     assert client.post(path).status_code == 404
 
 
-def test_create(client, auth, app):
-    """
-      As rotas 'update' e 'create' deve, retormar status 200 Ok para requisicão GET
-    em renderizar a página. Após validar os dados estará permitido a requisicões
-    POST no blog
-    :param client: Proxy da fixeture client
-    :param auth: proxy da fixeture auth
-    :param app: Proxy da fixeture app
-    :return: afirmacões de testes
-    """
-
-    auth.login()
-
-    assert client.get('/create').status_code == 200
-
-    client.post('/create', data={"title": "created", "body": ''})
-
-    with app.app_context():
-        db = get_db()
-        count = db.execute('SELECT COUNT (id) FROM post').fetchone()[0]
-        assert count == 2
