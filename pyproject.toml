@@ -11,7 +11,7 @@ requires = ["flit_core<4"]
 build-backend = "flit_core.buildapi"
 
 [tool.pytest.ini_options]
-testpaths = ['tests']
+testpaths = ['flaskr/tests']
 
 [tools.coverage.run]
 branch = true
