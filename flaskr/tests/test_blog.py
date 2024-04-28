@@ -167,3 +167,24 @@ def test_create_update_validated(client, auth, path):
     auth.login()
     response = client.post(path, data={"title": '', "body": ""})
     assert b"Title is required" in response.data
+
+
+def test_delete(client, app, auth):
+    """
+        Após deletar um post deve ser redirecionado para
+    página index da do site
+
+    :param client: proxy da fixeture client
+    :param app: proxy da fixeture app
+    :param auth: proxy da fixeture auth
+    :return:
+    """
+
+    auth.login()
+    response = client.post('/1/delete')
+    assert response.headers['Location'] == '/'
+
+    with app.app_context():
+        db = get_db()
+        post = db.execute('SELECT * FROM post WHERE ID = 1').fetchone()
+        assert post is None
