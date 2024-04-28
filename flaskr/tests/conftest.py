@@ -64,7 +64,7 @@ class AuthAction(object):
         """
 
         return self._client.post('/auth/login',  # rota para ecessar no teste
-                                 data={'username': username, password:password})  # Dados para o formulário da requisicão
+                                 data={'username': username, "password": password})  # Dados para o formulário da requisicão
 
     def logout(self):
         """

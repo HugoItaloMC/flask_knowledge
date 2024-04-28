@@ -27,9 +27,9 @@ def test_register(client, app):
 
 # Chama Pytest para executatar diferentes testes, verificando diferentes tipos inválidos de entrada de dados
 @pytest.mark.parametrize(('username', 'password', 'message'),
-                         (('', '', b'Username is Required'),
+                         (('', '', b'Username is required'),
                           ('a', '', b'Password is required'),
-                          ('test', 'test', b'already redistered'),))
+                          ('test', 'test', b'already registered'),))
 def test_register_validate_input(client, username, password, message):
     """
         Testing in inputs to sign up user, validating inputs wrongs,
@@ -67,9 +67,9 @@ def test_login(client, auth):
         assert g.user['username'] == 'teste'
 
 
-@pytest.mark.parametrize('username', 'password', 'message', (
-    (b'a', b'test', b'Incorret Username'),
-    (b'test', b'a', b'Incorred password')
+@pytest.mark.parametrize(('username', 'password', 'message'), (
+        ('a', 'test', b'Incorrect Username'),
+        ('test', 'a', b'Incorrect Password')
 ))
 def test_login_validate_input(auth, username, password, message):
     """

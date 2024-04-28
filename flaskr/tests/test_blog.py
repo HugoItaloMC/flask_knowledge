@@ -166,7 +166,7 @@ def test_create_update_validated(client, auth, path):
 
     auth.login()
     response = client.post(path, data={"title": '', "body": ""})
-    assert b"Title is required" in response.data
+    assert b'Title is required' in response.data
 
 
 def test_delete(client, app, auth):
