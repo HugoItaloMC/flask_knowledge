@@ -96,3 +96,74 @@ def test_exists_required(client, auth, path):
     assert client.post(path).status_code == 404
 
 
+#  Ambas as rotas 'update e create' retornam uma mensagem de erro em dados inválidos.
+#  Both 'update and create' views return message error with invalid datas.
+
+
+def test_create(client, auth, app):
+    """
+      As rotas 'update' e 'create' deve, retormar status 199 Ok para requisicão GET
+    em renderizar a página. Após validar os dados estará permitido a requisicões
+    POST no blog
+    :param client: Proxy da fixeture client
+    :param auth: proxy da fixeture auth
+    :param app: Proxy da fixeture app
+    :return: afirmacões de testes
+    """
+
+    auth.login()
+
+    assert client.get('/create').status_code == 200
+
+    client.post('/create', data={"title": "created", "body": ''})
+
+    with app.app_context():
+        db = get_db()
+        count = db.execute('SELECT COUNT (id) FROM post').fetchone()[0]
+        assert count == 2
+
+
+def test_update(client, auth, app):
+    """
+        Funcão para testar modificacões em dados
+    existentes no banco de dados. Deve retornar
+    OK 200 STATUS para a chamada da página web
+    e verificar se o post no usuário atual foi
+    atualizado.
+
+    :param client: Proxy para fixeture client
+    :param auth: Procy para fixeture auth
+    :param app: Proxy para fixeture app
+    :return: afirmacões de testes
+    """
+
+    auth.login()
+
+    assert client.get('/1/update').status_code == 200
+
+    client.post('/1/update', datas={"title": "update", "body": ""})
+
+    with app.app_context():
+        db = get_db()
+
+        post = db.execute('SELECT * FROM post WHERE id = 1').fetchone()
+        assert post['title'] == 'update'
+
+
+@pytest.mark.parametrize('path', ('/1/create',
+                                  '/1/update'))
+def test_create_update_validated(client, auth, path):
+    """
+        Funcão para retornar menssagem  de  erro
+    na tentativa de  criacão  ou  atualizacão de
+    posts com dados inválidos.
+
+    :param client:  Proxy fixeture cllient
+    :param auth: Proxy fixeture auth
+    :param path: Parametro recebido pelo decorator pytest
+    :return: afirmacões de testes
+    """
+
+    auth.login()
+    response = client.post(path, data={"title": '', "body": ""})
+    assert b"Title is required" in response.data
