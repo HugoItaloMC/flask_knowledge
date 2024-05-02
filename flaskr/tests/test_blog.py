@@ -26,7 +26,6 @@ def test_index(client, auth):
     auth.login()  # Logando usuário de teste
     response = client.get('/')  # Buscando página index com usuário logado
 
-    response = client.get('/')
     assert b'Log Out' in response.data  # Afirmando link para saída
     assert b'test title' in response.data  # Dados para testes contidos em post no blog
     assert b'by test on 2018-01-01' in response.data  # Dados para testes contidos em post no blog
@@ -80,8 +79,8 @@ def test_author_required(app, client, auth):
     assert b'href="/1/update"' not in client.get('/').data
 
 
-@pytest.mark.parametrize('path', ('/1/update',
-                                  '/1/delete'))
+@pytest.mark.parametrize('path', ('/2/update',
+                                  '/2/delete'))
 def test_exists_required(client, auth, path):
     """
       Se o id da postagem fornecida ñ existir, deve retornar um error 404
@@ -150,7 +149,7 @@ def test_update(client, auth, app):
         assert post['title'] == 'update'
 
 
-@pytest.mark.parametrize('path', ('/1/create',
+@pytest.mark.parametrize('path', ('/create',
                                   '/1/update'))
 def test_create_update_validated(client, auth, path):
     """
