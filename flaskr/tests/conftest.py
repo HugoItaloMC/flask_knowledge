@@ -54,7 +54,7 @@ class AuthAction(object):
         """
         self._client = client
 
-    def login(self, username='test', password='teste'):
+    def login(self, username='test', password='test'):
         """
             Método de teste na rota para logar o usuário na aplicacão
 

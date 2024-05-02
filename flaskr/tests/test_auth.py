@@ -64,7 +64,7 @@ def test_login(client, auth):
         # Aṕóes a resosta utilizando fixture `client` como contexto pode acessar objetos globais que os mesmos verificam dados atuais
         client.get('/')
         assert session['user_id'] == 1
-        assert g.user['username'] == 'teste'
+        assert g.user['username'] == 'test'
 
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
