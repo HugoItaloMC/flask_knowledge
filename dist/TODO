@@ -1,0 +1,72 @@
+# INSTALL PYTHON WITH GREATS BUILDS
+
+##    The tutorial  of installation they are 
+##   to  is  of  family  system  unix  being 
+##   these debian group
+
+# HOWOVER, IT ACCOUNT I CONSIDER USER HAS FAMILIRITY WITH SYSTEM LINUX/UNIX 
+
+```
+$ wget https://www.python.org/ftp/python/3.8.4/Python-3.8.4.tgz
+
+```
+
+## 	UDATE PACKAGE MANAGER YOU SYSTEM
+
+```
+sudo apt update
+sudo apt full-upgrade -y
+sudo apt install -f  // remove packages corremped
+sudo apt install --fix-broken install  // forced remove corremped packages
+
+
+## NOW WE GO INSTALL THE DEPENDÊNCIES
+
+
+```
+$ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev
+```
+
+#	 Should in  you unpack the source into a directory, 
+#	howover  alls  unix  system   already  become  with 
+#	python  installed,  it  recomended  make  a  folder 
+#	separed to install.
+
+```
+mkdir $HOME/app/python  // Where you install alls versions python separeted from you system
+cd $HOME/app/python  // Move to package created
+``` 
+
+##	 Once move package  python  still  packed  to folder 
+##	created now
+
+```
+$ tar xvf Python-3.8.4.tgz
+$ cd Python-3.8.4
+```
+
+## 	 You need run ./configure file tool prepare the build
+
+
+```
+$ ./configure --enable-optimizations --with-ensurepip=install
+```
+
+## 	 Next step is compiled python in you system, step is 
+##	several minutes, await until fineshed
+
+```
+make -j 8
+```
+
+## 	Install the python compiled in the system font
+
+```
+sudo make altinstall
+```
+
+## Suite test to verify the python in you system
+
+```
+python3.8 -m test
+``` 
