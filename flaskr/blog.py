@@ -27,7 +27,7 @@ def index():
 def create():
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['text_body']
+        body = request.form['body']
         error = None
 
         if not title:
@@ -71,7 +71,7 @@ def update(id):
 
     if request.method == 'POST':
         title = request.form['title']
-        body = request.form['text_body']
+        body = request.form['body']
 
         error = None
 
