@@ -1,10 +1,10 @@
 blinker==1.7.0
+build==1.2.1
 click==8.1.7
 coverage==7.4.4
 Flask==3.0.2
 Flask-SQLAlchemy==3.1.1
-# Editable Git install with no remote (flaskr==1.0.0)
--e /home/italo/Documentos/learnings/smooth/flask_knowledge
+-e git+ssh://git@github.com/HugoItaloMC/flask_knowledge.git@ea3271a1ef6f19d48c4f1c44fbc28ffb07ffe567#egg=flaskr
 greenlet==3.0.3
 iniconfig==2.0.0
 itsdangerous==2.1.2
@@ -13,7 +13,11 @@ MarkupSafe==2.1.5
 packaging==24.0
 pi==0.1.2
 pluggy==1.4.0
+pyproject_hooks==1.1.0
 pytest==8.1.1
+pyuwsgi==2.0.23.post0
 SQLAlchemy==2.0.29
 typing_extensions==4.10.0
+uWSGI==2.0.25.1
+waitress==3.0.0
 Werkzeug==3.0.1
